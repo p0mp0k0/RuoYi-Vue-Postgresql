@@ -85,7 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="dictType != null and dictType != ''">#{dictType},</if>
 			<if test="sort != null">#{sort},</if>
 			<if test="createBy != null and createBy != ''">#{createBy},</if>
-			sysdate()
+			current_timestamp
          )
     </insert>
 	 
@@ -105,7 +105,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             dict_type = #{dictType},
             sort = #{sort},
             update_by = #{updateBy},
-            update_time = sysdate()
+            update_time = current_timestamp
         </set>
         where column_id = #{columnId}
     </update>
