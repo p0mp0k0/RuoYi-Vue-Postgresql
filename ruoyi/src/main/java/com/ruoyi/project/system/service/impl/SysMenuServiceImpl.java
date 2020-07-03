@@ -10,8 +10,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.ruoyi.common.utils.http.HttpUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
@@ -35,8 +33,7 @@ import com.ruoyi.project.system.service.ISysMenuService;
 public class SysMenuServiceImpl implements ISysMenuService
 {
     public static final String PREMISSION_STRING = "perms[\"{0}\"]";
-    private static final Logger log = LoggerFactory.getLogger(SysMenuServiceImpl.class);
-
+    
     @Autowired
     private SysMenuMapper menuMapper;
 
@@ -331,7 +328,6 @@ public class SysMenuServiceImpl implements ISysMenuService
     public String getRouterPath(SysMenu menu)
     {
         String routerPath = menu.getPath();
-        log.info("menu: {}", menu);
         // 非外链并且是一级目录（类型为目录）
         if (0 == menu.getParentId().intValue() && UserConstants.TYPE_DIR.equals(menu.getMenuType())
                 && UserConstants.NO_FRAME.equals(menu.getIsFrame().toString()))
