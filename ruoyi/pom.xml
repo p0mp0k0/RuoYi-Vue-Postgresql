@@ -89,10 +89,11 @@
 			<artifactId>commons-pool2</artifactId>
 		</dependency>
 
-		<!-- Mysql驱动包 -->
+		<!-- Postgresql驱动包 -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.14.jre7</version>
 			<scope>runtime</scope>
 		</dependency>
 
