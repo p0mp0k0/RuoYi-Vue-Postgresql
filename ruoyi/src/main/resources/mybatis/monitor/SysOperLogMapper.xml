@@ -54,11 +54,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="operName != null and operName != ''">
 				AND oper_name like concat('%', #{operName}, '%')
 			</if>
-			<if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
-				and date_format(oper_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+				<if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and oper_time &gt;= to_date(#{beginTime},'YYYY-MM-DD')
 			</if>
 			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
-				and date_format(oper_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+				and oper_time &lt;= to_date(#{endTime},'YYYY-MM-DD')
 			</if>
 		</where>
 		order by oper_id desc

@@ -83,12 +83,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND lower(table_comment) like lower(concat('%', #{tableComment}, '%'))
 		</if>
 		<if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
-			AND date_format(create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
-		</if>
-		<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
-			AND date_format(create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
-		</if>
-	</select>
+				and create_time &gt;= to_date(#{beginTime},'YYYY-MM-DD')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and create_time &lt;= to_date(#{endTime},'YYYY-MM-DD')
+			</if>
+		</select>
 	
 	<select id="selectDbTableListByNames" resultMap="GenTableResult">
 		select table_name, table_comment, create_time, update_time from information_schema.tables

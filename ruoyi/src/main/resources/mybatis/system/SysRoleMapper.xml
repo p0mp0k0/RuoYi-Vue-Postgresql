@@ -41,11 +41,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND r.role_key like concat('%', #{roleKey}, '%')
 		</if>
 		<if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
-			and date_format(r.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
-		</if>
-		<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
-			and date_format(r.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
-		</if>
+				and r.create_time &gt;= to_date(#{beginTime},'YYYY-MM-DD')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and r.create_time &lt;= to_date(#{endTime},'YYYY-MM-DD')
+			</if>
 		<!-- 数据范围过滤 -->
 		${params.dataScope}
 		order by r.role_sort
