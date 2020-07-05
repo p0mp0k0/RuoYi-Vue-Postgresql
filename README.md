@@ -9,6 +9,7 @@
 5. 修改其他代码中对应SysMenu属性类型变更后的Getter使用后toString，SysMenuServiceImpl
 6. 修改ScheduleConfig，增加对应Postgresql的PostgreSQLDelegate
 7. 增加两个Postgresql函数，对应GenTable和genTableColumn查询系统表数据，并修改Mapper xml中的sql语句
+8. 修改vm中的sql语句
 
 ## 平台简介
 
