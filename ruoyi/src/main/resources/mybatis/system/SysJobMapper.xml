@@ -19,12 +19,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="updateTime"     column="update_time"     />
 		<result property="remark"         column="remark"          />
 	</resultMap>
-	
+
 	<sql id="selectJobVo">
-        select job_id, job_name, job_group, invoke_target, cron_expression, misfire_policy, concurrent, status, create_by, create_time, remark 
+        select job_id, job_name, job_group, invoke_target, cron_expression, misfire_policy, concurrent, status, create_by, create_time, remark
 		from sys_job
     </sql>
-	
+
 	<select id="selectJobList" parameterType="SysJob" resultMap="SysJobResult">
 		<include refid="selectJobVo"/>
 		<where>
@@ -42,27 +42,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="selectJobAll" resultMap="SysJobResult">
 		<include refid="selectJobVo"/>
 	</select>
-	
+
 	<select id="selectJobById" parameterType="Long" resultMap="SysJobResult">
 		<include refid="selectJobVo"/>
 		where job_id = #{jobId}
 	</select>
-	
+
 	<delete id="deleteJobById" parameterType="Long">
  		delete from sys_job where job_id = #{jobId}
  	</delete>
- 	
+
  	<delete id="deleteJobByIds" parameterType="Long">
  		delete from sys_job where job_id in
  		<foreach collection="array" item="jobId" open="(" separator="," close=")">
  			#{jobId}
-        </foreach> 
+        </foreach>
  	</delete>
- 	
+
  	<update id="updateJob" parameterType="SysJob">
  		update sys_job
  		<set>
@@ -79,9 +79,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		</set>
  		where job_id = #{jobId}
 	</update>
- 	
+
  	<insert id="insertJob" parameterType="SysJob" useGeneratedKeys="true" keyProperty="jobId">
- 		insert into sys_job(
+ 		<selectKey keyProperty="jobId" order="BEFORE" resultType="long">
+ 	select nextval('sys_job_job_id_seq') as jobId
+    </selectKey>
+    insert into sys_job(
  			<if test="jobId != null and jobId != 0">job_id,</if>
  			<if test="jobName != null and jobName != ''">job_name,</if>
  			<if test="jobGroup != null and jobGroup != ''">job_group,</if>
@@ -108,4 +111,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		)
 	</insert>
 
-</mapper> 
+</mapper>

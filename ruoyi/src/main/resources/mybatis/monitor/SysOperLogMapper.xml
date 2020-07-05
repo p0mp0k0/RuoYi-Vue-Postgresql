@@ -27,12 +27,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select oper_id, title, business_type, method, request_method, operator_type, oper_name, dept_name, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time
         from sys_oper_log
     </sql>
-    
+
 	<insert id="insertOperlog" parameterType="SysOperLog">
-		insert into sys_oper_log(title, business_type, method, request_method, operator_type, oper_name, dept_name, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time)
+	<selectKey keyProperty="operId" order="BEFORE" resultType="long">
+ 	select nextval('sys_oper_log_oper_id_seq') as operId
+    </selectKey>
+    	insert into sys_oper_log(title, business_type, method, request_method, operator_type, oper_name, dept_name, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time)
         values (#{title}, #{businessType}, #{method}, #{requestMethod}, #{operatorType}, #{operName}, #{deptName}, #{operUrl}, #{operIp}, #{operLocation}, #{operParam}, #{jsonResult}, #{status}, #{errorMsg}, current_timestamp)
 	</insert>
-	
+
 	<select id="selectOperLogList" parameterType="SysOperLog" resultMap="SysOperLogResult">
 		<include refid="selectOperLogVo"/>
 		<where>
@@ -46,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			    AND business_type in
 			    <foreach collection="businessTypes" item="businessType" open="(" separator="," close=")">
 		 			#{businessType}
-		        </foreach> 
+		        </foreach>
 			</if>
 			<if test="status != null">
 				AND status = #{status}
@@ -63,21 +66,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 		order by oper_id desc
 	</select>
-	
+
 	<delete id="deleteOperLogByIds" parameterType="Long">
  		delete from sys_oper_log where oper_id in
  		<foreach collection="array" item="operId" open="(" separator="," close=")">
  			#{operId}
-        </foreach> 
+        </foreach>
  	</delete>
- 	
+
  	<select id="selectOperLogById" parameterType="Long" resultMap="SysOperLogResult">
 		<include refid="selectOperLogVo"/>
 		where oper_id = #{operId}
 	</select>
-	
+
 	<update id="cleanOperLog">
         truncate table sys_oper_log
     </update>
 
-</mapper> 
+</mapper>

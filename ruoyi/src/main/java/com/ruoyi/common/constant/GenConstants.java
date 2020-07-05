@@ -2,7 +2,7 @@ package com.ruoyi.common.constant;
 
 /**
  * 代码生成通用常量
- * 
+ *
  * @author ruoyi
  */
 public class GenConstants
@@ -24,7 +24,7 @@ public class GenConstants
 
     /** 数据库字符串类型 */
     public static final String[] COLUMNTYPE_STR = { "char", "varchar", "narchar", "varchar2", "tinytext", "text",
-            "mediumtext", "longtext" };
+            "mediumtext", "longtext", "character", "character varying" };
 
     /** 数据库时间类型 */
     public static final String[] COLUMNTYPE_TIME = { "datetime", "time", "date", "timestamp" };

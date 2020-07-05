@@ -143,7 +143,10 @@
 	</update>
 
 	<insert id="insertMenu" parameterType="SysMenu">
-		insert into sys_menu(
+		<selectKey keyProperty="menuId" order="BEFORE" resultType="long">
+ 	select nextval('sys_menu_menu_id_seq') as menuId
+    </selectKey>
+    insert into sys_menu(
 		<if test="menuId != null and menuId != 0">menu_id,</if>
 		<if test="parentId != null and parentId != 0">parent_id,</if>
 		<if test="menuName != null and menuName != ''">menu_name,</if>

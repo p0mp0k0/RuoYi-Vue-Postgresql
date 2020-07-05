@@ -8,6 +8,7 @@
 4. 由于Postgresql中严格对照Domain字段类型，修改Domain与数据库字段类型不匹配的对象，如：SysMenu、SysRole、SysPost、SysDept
 5. 修改其他代码中对应SysMenu属性类型变更后的Getter使用后toString，SysMenuServiceImpl
 6. 修改ScheduleConfig，增加对应Postgresql的PostgreSQLDelegate
+7. 增加两个Postgresql函数，对应GenTable和genTableColumn查询系统表数据，并修改Mapper xml中的sql语句
 
 ## 平台简介
 
@@ -43,10 +44,10 @@
 
 ## 在线体验
 
-- admin/admin123  
+- admin/admin123
 - 陆陆续续收到一些打赏，为了更好的体验已用于演示服务器升级。谢谢各位小伙伴。
 
-演示地址：http://vue.ruoyi.vip  
+演示地址：http://vue.ruoyi.vip
 文档地址：http://doc.ruoyi.vip
 
 ## 演示图
@@ -67,7 +68,7 @@
 	<tr>
         <td><img src="https://oscimg.oschina.net/oscnet/71c2d48905221a09a728df4aff4160b8607.jpg"/></td>
         <td><img src="https://oscimg.oschina.net/oscnet/c14c1ee9a64a6a9c2c22f67d43198767dbe.jpg"/></td>
-    </tr>	 
+    </tr>
     <tr>
         <td><img src="https://oscimg.oschina.net/oscnet/5e8c387724954459291aafd5eb52b456f53.jpg"/></td>
         <td><img src="https://oscimg.oschina.net/oscnet/644e78da53c2e92a95dfda4f76e6d117c4b.jpg"/></td>

@@ -81,7 +81,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
     <insert id="insertDept" parameterType="SysDept">
- 		insert into sys_dept(
+ 		<selectKey keyProperty="deptId" order="BEFORE" resultType="long">
+ 	select nextval('sys_dept_dept_id_seq') as deptId
+    </selectKey>
+    insert into sys_dept(
  			<if test="deptId != null and deptId != 0">dept_id,</if>
  			<if test="parentId != null and parentId != 0">parent_id,</if>
  			<if test="deptName != null and deptName != ''">dept_name,</if>

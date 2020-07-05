@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.tool.gen.mapper.GenTableColumnMapper">
-    
+
     <resultMap type="GenTableColumn" id="GenTableColumnResult">
         <id     property="columnId"       column="column_id"      />
         <result property="tableId"        column="table_id"       />
@@ -28,25 +28,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"       column="update_by"      />
         <result property="updateTime"     column="update_time"    />
     </resultMap>
-	
+
 	<sql id="selectGenTableColumnVo">
         select column_id, table_id, column_name, column_comment, column_type, java_type, java_field, is_pk, is_increment, is_required, is_insert, is_edit, is_list, is_query, query_type, html_type, dict_type, sort, create_by, create_time, update_by, update_time from gen_table_column
     </sql>
-	
+
     <select id="selectGenTableColumnListByTableId" parameterType="Long" resultMap="GenTableColumnResult">
         <include refid="selectGenTableColumnVo"/>
-        where table_id = #{tableId}
+        where cast(table_id as bigint) = #{tableId}
         order by sort
     </select>
-    
+
     <select id="selectDbTableColumnsByName" parameterType="String" resultMap="GenTableColumnResult">
-		select column_name, (case when (is_nullable = 'no' <![CDATA[ && ]]> column_key != 'PRI') then '1' else null end) as is_required, (case when column_key = 'PRI' then '1' else '0' end) as is_pk, ordinal_position as sort, column_comment, (case when extra = 'auto_increment' then '1' else '0' end) as is_increment, column_type
-		from information_schema.columns where table_schema = (select database()) and table_name = (#{tableName})
-		order by ordinal_position
+		select column_name, is_required, is_pk, sort, column_comment, is_increment, column_type
+		from list_column where table_name = (#{tableName})
 	</select>
-    
+
     <insert id="insertGenTableColumn" parameterType="GenTableColumn" useGeneratedKeys="true" keyProperty="columnId">
-        insert into gen_table_column (
+        <selectKey keyProperty="columnId" order="BEFORE" resultType="long">
+ 	select nextval('gen_table_column_column_id_seq') as columnId
+    </selectKey>
+    insert into gen_table_column (
 			<if test="tableId != null and tableId != ''">table_id,</if>
 			<if test="columnName != null and columnName != ''">column_name,</if>
 			<if test="columnComment != null and columnComment != ''">column_comment,</if>
@@ -88,7 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			current_timestamp
          )
     </insert>
-	 
+
     <update id="updateGenTableColumn" parameterType="GenTableColumn">
         update gen_table_column
         <set>
@@ -111,10 +113,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteGenTableColumnByIds" parameterType="Long">
-        delete from gen_table_column where table_id in 
+        delete from gen_table_column where table_id in
         <foreach collection="array" item="tableId" open="(" separator="," close=")">
             #{tableId}
         </foreach>
     </delete>
-    
+
 </mapper>

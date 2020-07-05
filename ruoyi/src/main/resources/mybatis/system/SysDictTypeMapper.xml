@@ -14,9 +14,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="updateBy"   column="update_by"   />
 		<result property="updateTime" column="update_time" />
 	</resultMap>
-	
+
 	<sql id="selectDictTypeVo">
-        select dict_id, dict_name, dict_type, status, create_by, create_time, remark 
+        select dict_id, dict_name, dict_type, status, create_by, create_time, remark
 		from sys_dict_type
     </sql>
 
@@ -40,35 +40,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		  </where>
 	</select>
-	
+
 	<select id="selectDictTypeAll" resultMap="SysDictTypeResult">
 		<include refid="selectDictTypeVo"/>
 	</select>
-	
+
 	<select id="selectDictTypeById" parameterType="Long" resultMap="SysDictTypeResult">
 		<include refid="selectDictTypeVo"/>
 		where dict_id = #{dictId}
 	</select>
-	
+
 	<select id="selectDictTypeByType" parameterType="String" resultMap="SysDictTypeResult">
 		<include refid="selectDictTypeVo"/>
 		where dict_type = #{dictType}
 	</select>
-	
+
 	<select id="checkDictTypeUnique" parameterType="String" resultMap="SysDictTypeResult">
 		<include refid="selectDictTypeVo"/>
 		where dict_type = #{dictType}
 	</select>
-	
+
 	<delete id="deleteDictTypeById" parameterType="Long">
  		delete from sys_dict_type where dict_id = #{dictId}
  	</delete>
- 	
+
  	<delete id="deleteDictTypeByIds" parameterType="Long">
  		delete from sys_dict_type where dict_id in
  		<foreach collection="array" item="dictId" open="(" separator="," close=")">
  			#{dictId}
-        </foreach> 
+        </foreach>
  	</delete>
 
  	<update id="updateDictType" parameterType="SysDictType">
@@ -83,9 +83,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		</set>
  		where dict_id = #{dictId}
 	</update>
- 	
+
  	<insert id="insertDictType" parameterType="SysDictType">
- 		insert into sys_dict_type(
+ 		<selectKey keyProperty="dictId" order="BEFORE" resultType="long">
+ 	select nextval('sys_dict_type_dict_id_seq') as dictId
+    </selectKey>
+    insert into sys_dict_type(
  			<if test="dictName != null and dictName != ''">dict_name,</if>
  			<if test="dictType != null and dictType != ''">dict_type,</if>
  			<if test="status != null">status,</if>
@@ -101,5 +104,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			current_timestamp
  		)
 	</insert>
-	
-</mapper> 
+
+</mapper>

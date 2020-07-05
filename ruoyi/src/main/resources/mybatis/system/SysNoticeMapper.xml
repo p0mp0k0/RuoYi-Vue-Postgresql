@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.system.mapper.SysNoticeMapper">
-    
+
     <resultMap type="SysNotice" id="SysNoticeResult">
         <result property="noticeId"       column="notice_id"       />
         <result property="noticeTitle"    column="notice_title"    />
@@ -16,17 +16,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"     column="update_time"     />
         <result property="remark"         column="remark"          />
     </resultMap>
-    
+
     <sql id="selectNoticeVo">
-        select notice_id, notice_title, notice_type, notice_content, status, create_by, create_time, update_by, update_time, remark 
+        select notice_id, notice_title, notice_type, notice_content, status, create_by, create_time, update_by, update_time, remark
 		from sys_notice
     </sql>
-    
+
     <select id="selectNoticeById" parameterType="Long" resultMap="SysNoticeResult">
         <include refid="selectNoticeVo"/>
         where notice_id = #{noticeId}
     </select>
-    
+
     <select id="selectNoticeList" parameterType="SysNotice" resultMap="SysNoticeResult">
         <include refid="selectNoticeVo"/>
         <where>
@@ -41,8 +41,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
     </select>
-    
+
     <insert id="insertNotice" parameterType="SysNotice">
+    <selectKey keyProperty="noticeId" order="BEFORE" resultType="long">
+ 	select nextval('sys_notice_notice_id_seq') as noticeId
+    </selectKey>
         insert into sys_notice (
 			<if test="noticeTitle != null and noticeTitle != '' ">notice_title, </if>
 			<if test="noticeType != null and noticeType != '' ">notice_type, </if>
@@ -61,9 +64,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			current_timestamp
 		)
     </insert>
-	 
+
     <update id="updateNotice" parameterType="SysNotice">
-        update sys_notice 
+        update sys_notice
         <set>
             <if test="noticeTitle != null and noticeTitle != ''">notice_title = #{noticeTitle}, </if>
             <if test="noticeType != null and noticeType != ''">notice_type = #{noticeType}, </if>
@@ -74,16 +77,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </set>
         where notice_id = #{noticeId}
     </update>
-	
+
     <delete id="deleteNoticeById" parameterType="Long">
         delete from sys_notice where notice_id = #{noticeId}
     </delete>
-    
+
     <delete id="deleteNoticeByIds" parameterType="Long">
-        delete from sys_notice where notice_id in 
+        delete from sys_notice where notice_id in
         <foreach item="noticeId" collection="array" open="(" separator="," close=")">
             #{noticeId}
         </foreach>
     </delete>
-    
+
 </mapper>
